@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace CSHTML09._07._23.Models
 {

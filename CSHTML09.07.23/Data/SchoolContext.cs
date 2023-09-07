@@ -1,13 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using CSHTML09._07._23.Models;
+
 namespace CSHTML09._07._23.Data
 {
-    public class SchoolContext: DbContext
+
+    public class SchoolContext : DbContext
     {
-        public SchoolContext(DbContextOptions<SchoolContext> options)  : base(options) 
-        { 
+        public SchoolContext(DbContextOptions<SchoolContext> options) : base(options)
+        {
         }
-        public DbSet<Course> Courses { get; set; }  
+        public DbSet<Course> Courses { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Student> Students { get; set; }
 
@@ -17,8 +19,5 @@ namespace CSHTML09._07._23.Data
             modelBuilder.Entity<Enrollment>().ToTable("Enrollment");
             modelBuilder.Entity<Student>().ToTable("Student");
         }
-
-
     }
-
 }
