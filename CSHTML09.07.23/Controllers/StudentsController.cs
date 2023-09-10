@@ -34,9 +34,15 @@ namespace CSHTML09._07._23.Controllers
             {
                 return NotFound();
             }
-
+            //the action method for the Details view uses the FirstOrDefaultAsync method to retrieve a single Student entity
             var student = await _context.Students
-                .FirstOrDefaultAsync(m => m.ID == id);
+            .Include(s => s.Enrollments)
+            .ThenInclude(e => e.Course)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(m => m.ID == id);
+            //The Include and ThenInclude methods cause the context to load the Student.Enrollments navigation property
+
+            
             if (student == null)
             {
                 return NotFound();
