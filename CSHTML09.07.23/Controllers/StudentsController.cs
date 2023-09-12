@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using CSHTML09._07._23.Data;
 using CSHTML09._07._23.Models;
 
+
+
 namespace CSHTML09._07._23.Controllers
 {
     public class StudentsController : Controller
@@ -67,12 +69,12 @@ namespace CSHTML09._07._23.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
-                {
+                //if (ModelState.IsValid)
+                //{
                     _context.Add(student);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
-                }
+                //}
             }
             catch (DbUpdateException /* ex */)
             {
@@ -105,20 +107,18 @@ namespace CSHTML09._07._23.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditPost(int? id)
+        public async Task<IActionResult> Edit(int id, 
+            [Bind("ID,EnrollmentDate,FirstMidName,LastName")] Student student)
         {
-            if (id == null)
+            if (id != student.ID)
             {
                 return NotFound();
             }
-            var studentToUpdate = await _context.Students.FirstOrDefaultAsync(s => s.ID == id);
-            if (await TryUpdateModelAsync<Student>(
-                studentToUpdate,
-                "",
-                s => s.FirstMidName, s => s.LastName, s => s.EnrollmentDate))
-            {
+            //if (ModelState.IsValid)
+            //{
                 try
                 {
+                    _context.Update(student);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -129,8 +129,8 @@ namespace CSHTML09._07._23.Controllers
                         "Try again, and if the problem persists, " +
                         "see your system administrator.");
                 }
-            }
-            return View(studentToUpdate);
+            //}
+            return View(student);
         }
 
         // GET: Students/Delete/5

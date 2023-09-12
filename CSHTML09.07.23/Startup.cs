@@ -21,7 +21,7 @@ namespace CSHTML09._07._23
         {
             services.AddDbContext<SchoolContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+            // provides helpful error information in the development environment. AddDatabaseDeveloperPageExceptionFilter();
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddControllersWithViews();
