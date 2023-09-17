@@ -1,4 +1,7 @@
-﻿@model PaginatedList<CSHTML09._07._23.Models.Student>
+﻿@*  page specifies that the view now gets a PaginatedList<T>
+    object instead of a List<T>
+        object. *@
+@model PaginatedList<CSHTML09._07._23.Models.Student>
 
 @{
     ViewData["Title"] = "Index";
@@ -60,7 +63,7 @@
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
-
+@* The paging buttons are displayed by tag helpers: *@
 <a asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-pageNumber="@(Model.PageIndex - 1)"

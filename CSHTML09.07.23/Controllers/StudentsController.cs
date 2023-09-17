@@ -36,13 +36,15 @@ namespace CSHTML09._07._23.Controllers
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
 
+            //The search string is changed when a value is entered in the text box and the 
+            //Submit button is pressed.In that case, the searchString parameter isn't null.
 
             if (searchString != null)
-            {
-                pageNumber = 1;
-            }
-            else
-            {
+                {
+                    pageNumber = 1;
+                }
+                else
+                {
                 searchString = currentFilter;
             }
             ViewData["CurrentFilter"] = searchString;
@@ -69,6 +71,8 @@ namespace CSHTML09._07._23.Controllers
                     students = students.OrderBy(s => s.LastName);
                     break;
             }
+            //PaginatedList.CreateAsync method converts the student query to a single page of 
+            //students in a collection type that supports paging
             int pageSize = 3;
             return View(await PaginatedList<Student>.CreateAsync(students.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
