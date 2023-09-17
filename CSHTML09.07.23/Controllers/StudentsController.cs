@@ -22,13 +22,31 @@ namespace CSHTML09._07._23.Controllers
         }
 
         // GET: Students
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        //This code adds a page number parameter, a current sort order parameter, and a 
+        //current filter parameter to the method signature.
+        public async Task<IActionResult> Index(
+             string sortOrder,
+             string currentFilter,
+             string searchString,
+             int? pageNumber)
         {
             //two ViewData elements (NameSortParm and DateSortParm) are used by the view to
             //configure the column heading hyperlinks with the appropriate query string values.
+            ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
             ViewData["CurrentFilter"] = searchString;
+
             var students = from s in _context.Students
                            select s;
             if (!String.IsNullOrEmpty(searchString))
@@ -51,7 +69,8 @@ namespace CSHTML09._07._23.Controllers
                     students = students.OrderBy(s => s.LastName);
                     break;
             }
-            return View(await students.AsNoTracking().ToListAsync());
+            int pageSize = 3;
+            return View(await PaginatedList<Student>.CreateAsync(students.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Students/Details/5
