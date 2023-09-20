@@ -38,6 +38,7 @@ namespace CSHTML09._07._23.Controllers
 
             var course = await _context.Courses
                 .Include(c => c.Department)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.CourseID == id);
             if (course == null)
             {
@@ -55,7 +56,7 @@ namespace CSHTML09._07._23.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CourseID,Credits,DepartmentID,Title")] Course course)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.Add(course);
                 await _context.SaveChangesAsync();
@@ -134,6 +135,7 @@ namespace CSHTML09._07._23.Controllers
 
             var course = await _context.Courses
                 .Include(c => c.Department)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.CourseID == id);
             if (course == null)
             {
