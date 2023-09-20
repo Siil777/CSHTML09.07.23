@@ -7,8 +7,8 @@ namespace CSHTML09._07._23.Models
 {
     public class Instructor
     {
-        public class Instructor
-        {
+        
+        
             public int ID { get; set; }
 
             [Required]
@@ -35,6 +35,6 @@ namespace CSHTML09._07._23.Models
 
             public ICollection<CourseAssignment> CourseAssignments { get; set; }
             public OfficeAssignment OfficeAssignment { get; set; }
-        }
+        
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace CSHTML09._07._23.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CSHTML09._07._23.Models
 {
     public enum Grade
     {
@@ -10,6 +13,7 @@
         public int EnrollmentID { get; set; }
         public int CourseID { get; set; }
         public int StudentID { get; set; }
+        [DisplayFormat(NullDisplayText = "No grade")]
         public Grade? Grade { get; set; }
         public DateTime EnrollmentDate { get; set; }
 
