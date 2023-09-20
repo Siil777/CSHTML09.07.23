@@ -13,7 +13,7 @@ namespace CSHTML09._07._23.Migrations
 {
     [DbContext(typeof(SchoolContext))]
     [Migration("20230911171546_init")]
-    partial class init
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
