@@ -73,14 +73,16 @@ namespace CSHTML09._07._23.Controllers
             }
 
             var course = await _context.Courses
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.CourseID == id);
-            if (course == null)
-            {
-                return NotFound();
-            }
-            PopulateDepartmentsDropDownList(course.DepartmentID);
-            return View(course);
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(m => m.CourseID == id);
+
+                if (course == null)
+                {
+                    return NotFound();
+                }
+                PopulateDepartmentsDropDownList(course.DepartmentID);
+                return View(course);
+            
         }
 
         [HttpPost, ActionName("Edit")]
@@ -115,7 +117,7 @@ namespace CSHTML09._07._23.Controllers
             PopulateDepartmentsDropDownList(courseToUpdate.DepartmentID);
             return View(courseToUpdate);
         }
-        private void PopulateDepartmentsDropDownList(object selectedDepartment = null)
+        private void PopulateDepartmentsDropDownList(object? selectedDepartment = null)
         {
             var departmentsQuery = from d in _context.Departments
                                    orderby d.Name
