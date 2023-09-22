@@ -23,8 +23,8 @@ namespace CSHTML09._07._23.Controllers
         public async Task<IActionResult> Index()
         {   // returns Course entities (courses instead of schoolContext
             var courses = _context.Courses
-            .Include(c => c.Department)
-            .AsNoTracking();
+            .Include(c => c.Department);
+            //.AsNoTracking();
             return View(await courses.ToListAsync());
         }
 
@@ -73,15 +73,17 @@ namespace CSHTML09._07._23.Controllers
             }
 
             var course = await _context.Courses
-                    .AsNoTracking()
+                    //.AsNoTracking()
                     .FirstOrDefaultAsync(m => m.CourseID == id);
 
-                if (course == null)
-                {
-                    return NotFound();
-                }
-                PopulateDepartmentsDropDownList(course.DepartmentID);
+            if (course == null)
+            {
+                return NotFound();
+            }
+
+            PopulateDepartmentsDropDownList(course.DepartmentID);
                 return View(course);
+            
             
         }
 
@@ -94,6 +96,7 @@ namespace CSHTML09._07._23.Controllers
                 return NotFound();
             }
 
+
             var courseToUpdate = await _context.Courses
                 .FirstOrDefaultAsync(c => c.CourseID == id);
 
@@ -101,21 +104,22 @@ namespace CSHTML09._07._23.Controllers
                 "",
                 c => c.Credits, c => c.DepartmentID, c => c.Title))
             {
-                try
-                {
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateException /* ex */)
-                {
-                    //Log the error (uncomment ex variable name and write a log.)
-                    ModelState.AddModelError("", "Unable to save changes. " +
-                        "Try again, and if the problem persists, " +
-                        "see your system administrator.");
-                }
-                return RedirectToAction(nameof(Index));
+                PopulateDepartmentsDropDownList(courseToUpdate.DepartmentID);
+                return View(courseToUpdate);
             }
-            PopulateDepartmentsDropDownList(courseToUpdate.DepartmentID);
-            return View(courseToUpdate);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                //Log the error (uncomment ex variable name and write a log.)
+                ModelState.AddModelError("", "Unable to save changes. " +
+                    "Try again, and if the problem persists, " +
+                    "see your system administrator.");
+            }
+            return RedirectToAction(nameof(Index));
+
         }
         private void PopulateDepartmentsDropDownList(object? selectedDepartment = null)
         {
@@ -165,6 +169,7 @@ namespace CSHTML09._07._23.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+     
 
         private bool CourseExists(int id)
         {
