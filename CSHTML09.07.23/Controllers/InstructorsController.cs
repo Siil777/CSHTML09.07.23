@@ -169,7 +169,7 @@ namespace CSHTML09._07._23.Controllers
                 .ThenInclude(i => i.Course)
                 .FirstOrDefaultAsync(s => s.ID == id);
 
-            if (await TryUpdateModelAsync<Instructor>(
+            if (!await TryUpdateModelAsync<Instructor>(
                 instructorToUpdate,
                 "",
                 i => i.FirstMidName, i => i.LastName, i => i.HireDate, i => i.OfficeAssignment))
