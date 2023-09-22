@@ -60,7 +60,7 @@ namespace CSHTML09._07._23.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("DepartmentID,Name,Budget,StartDate,InstructorID,RowVersion")] Department department)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.Add(department);
                 await _context.SaveChangesAsync();
@@ -113,7 +113,7 @@ namespace CSHTML09._07._23.Controllers
 
             _context.Entry(departmentToUpdate).Property("RowVersion").OriginalValue = rowVersion;
 
-            if (await TryUpdateModelAsync<Department>(
+            if (!await TryUpdateModelAsync<Department>(
                 departmentToUpdate,
                 "",
                 s => s.Name, s => s.StartDate, s => s.Budget, s => s.InstructorID))
